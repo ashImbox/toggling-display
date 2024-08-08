@@ -3,56 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toggling Display</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            height: 100vh;
-        }
-        #container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        iframe {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: none; /* Hide all iframes by default */
-        }
-        iframe.active {
-            display: block; /* Show only the active iframe */
-        }
-    </style>
-</head>
-<body>
-    <div id="container">
-        <iframe id="mqttData" src="https://ashimbox.github.io/mqtt_sub/"></iframe>
-        <iframe id="planner" src="https://tasks.office.com/imboxprotection.com/da-DK/Home/Planner/#/plantaskboard?groupId=556c8070-cb76-4b3d-a5e6-ee63fc786a24&planId=yXqWvgnLiUK2uWwseqYMP5gAFHxv&taskId=ru4RhleFwkK0dL3YW9D7MJgAKhdo"></iframe>
-    </div>
+    <title>Auto Redirect</title>
     <script>
-        let currentIndex = 0;
-        const iframes = document.querySelectorAll('iframe');
-        const toggleInterval = 10000; // 10 seconds
-
-        function showIframe(index) {
-            iframes.forEach((iframe, i) => {
-                iframe.classList.toggle('active', i === index);
-            });
-        }
+        const toggleInterval = 3000; // 10 seconds
 
         function toggleScreens() {
-            showIframe(currentIndex);
-            currentIndex = (currentIndex + 1) % iframes.length;
+            if (window.location.href.includes('mqtt')) {
+                // Redirect to Planner site
+                window.location.href = "https://tasks.office.com/imboxprotection.com/da-DK/Home/Planner/#/plantaskboard?groupId=556c8070-cb76-4b3d-a5e6-ee63fc786a24&planId=yXqWvgnLiUK2uWwseqYMP5gAFHxv&taskId=ru4RhleFwkK0dL3YW9D7MJgAKhdo";
+            } else {
+                // Redirect back to MQTT data
+                window.location.href = "https://ashimbox.github.io/mqtt_sub/";
+            }
         }
 
-        // Initial display
-        showIframe(currentIndex);
-
-        // Toggle screens every 10 seconds
-        setInterval(toggleScreens, toggleInterval);
+        setTimeout(toggleScreens, toggleInterval);
     </script>
+</head>
+<body>
+    <!-- Display a message or loading spinner while redirecting -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif;">
+        Redirecting...
+    </div>
 </body>
 </html>
